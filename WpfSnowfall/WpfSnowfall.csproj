@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-windows;net47;net48</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <LangVersion>10.0</LangVersion>
+    <Title>WpfSnowfall</Title>
+    <Authors>marplex</Authors>
+    <Description>Fully customizable snowfall animation control</Description>
+    <Copyright>Copyright (c) 2023 Marco</Copyright>
+    <PackageProjectUrl>https://github.com/marplex/WpfSnowfall</PackageProjectUrl>
+    <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/marplex/WpfSnowfall</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>snow,snowfall,wpf,snowflake</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Art\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.nuget.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
