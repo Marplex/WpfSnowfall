@@ -31,6 +31,7 @@
         <sf:Snowfall
             EmissionRate="5"
             Fill="White"
+            LeaveAnimation="Fade"
             OpacityFactor="1"
             ParticleSpeed="1"
             ScaleFactor="1.1"

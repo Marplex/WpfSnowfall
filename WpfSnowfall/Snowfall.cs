@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using WpfSnowfall.Snowflakes;
+using WpfSnowfall.Models;
 
 namespace WpfSnowfall;
 
@@ -43,6 +44,13 @@ public class Snowfall : Canvas
     /// </summary>
     public static readonly DependencyProperty FillProperty = DependencyProperty.Register(
         nameof(Fill), typeof(Brush), typeof(Snowfall), new(new SolidColorBrush(Color.FromRgb(255, 255, 255))));
+
+    /// <summary>
+    /// Property for <see cref="LeaveAnimation"/>.
+    /// </summary>
+    public static readonly DependencyProperty LeaveAnimationProperty = DependencyProperty.Register(
+        nameof(LeaveAnimation), typeof(SnowflakeAnimation), typeof(Snowfall), new(SnowflakeAnimation.None));
+    
 
     /// <summary>
     /// Scale in/out snowflakes. Higher values generates bigger snowflakes.
@@ -84,6 +92,15 @@ public class Snowfall : Canvas
     }
 
     /// <summary>
+    /// Snowflake leave animation
+    /// </summary>
+    public SnowflakeAnimation LeaveAnimation
+    {
+        get => (SnowflakeAnimation)GetValue(LeaveAnimationProperty);
+        set => SetValue(LeaveAnimationProperty, value);
+    }
+
+    /// <summary>
     /// Snowflake color
     /// </summary>
     public Brush Fill
@@ -116,11 +133,14 @@ public class Snowfall : Canvas
         var xAmount = _random.Next(0, (int)ActualWidth);
         var scale = ((_random.NextDouble() * 0.6) + 0.5) * ScaleFactor;
         var rotateAmount = _random.Next(0, 270);
-        var duration = new Duration(TimeSpan.FromSeconds(_random.Next(8, 10) * (1.0 / ParticleSpeed)));
 
         RotateTransform rotateTransform = new(rotateAmount);
         ScaleTransform scaleTransform = new(scale, scale);
         TranslateTransform translateTransform = new(xAmount, -(50 * ScaleFactor));
+
+        //Setup animation time
+        var duration = new Duration(TimeSpan.FromSeconds(_random.Next(8, 10) * (1.0 / ParticleSpeed)));
+        var fadeDuration = new Duration(TimeSpan.FromSeconds(2));
 
         //Create snowflake
         var flake = Snowflake.Generate();
@@ -146,22 +166,33 @@ public class Snowfall : Canvas
         rotateAmount += _random.Next(90, 360);
         var rotateAnimation = GenerateAnimation(rotateAmount, duration, flake, "RenderTransform.Children[0].Angle");
 
+        //Create fade animations
+        var fadeOutAnimation = GenerateAnimation(.0, fadeDuration, flake, "Opacity", duration.Subtract(fadeDuration).TimeSpan);
+
+
         //Start animation
         Storyboard story = new();
-        story.Completed += (sender, e) => Children.Remove(flake);
         story.Children.Add(xAnimation);
         story.Children.Add(yAnimation);
         story.Children.Add(rotateAnimation);
+        
+        if (LeaveAnimation == SnowflakeAnimation.Fade)
+            story.Children.Add(fadeOutAnimation);
+
         flake.Loaded += (sender, args) => story.Begin();
+        story.Completed += (sender, e) => Children.Remove(flake);
+
     }
 
-    private static DoubleAnimation GenerateAnimation(int x, Duration duration, UserControl flake, string propertyPath)
+    private static DoubleAnimation GenerateAnimation(double x, Duration duration, UserControl flake, string propertyPath, TimeSpan? beginTime = null)
     {
         DoubleAnimation animation = new()
         {
+            BeginTime = beginTime ?? TimeSpan.Zero,
             To = x,
             Duration = duration
         };
+
         Storyboard.SetTarget(animation, flake);
         Storyboard.SetTargetProperty(animation, new PropertyPath(propertyPath));
         return animation;

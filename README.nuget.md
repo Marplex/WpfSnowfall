@@ -23,6 +23,7 @@ Include WpfSnowfall user control in your layout. For more info view the `Demo` p
     Fill="White"
     ScaleFactor="1.1"
     OpacityFactor="1"
+    LeaveAnimation="Fade"
     ParticleSpeed="1" />
 ```
 
@@ -35,6 +36,7 @@ Include WpfSnowfall user control in your layout. For more info view the `Demo` p
 | OpacityFactor 	| Snowflake opacity                                                  	| 1.0     	|
 | ParticleSpeed 	| Snowflake fall speed                                               	| 1.0     	|
 | Fill          	| Snowflake color                                                    	| White   	|
+| LeaveAnimation    | Snowflake leave animation                                          	| Fade    	|
 
 
 # 📜 License

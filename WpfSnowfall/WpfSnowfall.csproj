@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net6.0-windows;net47;net48</TargetFrameworks>
@@ -16,7 +16,8 @@
     <PackageTags>snow,snowfall,wpf,snowflake</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Add snowflake leave animation</PackageReleaseNotes>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
